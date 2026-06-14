@@ -1,0 +1,1 @@
+# Kinesis exchange connector package
