@@ -10,12 +10,20 @@ class KinesisOrderBookTracker(OrderBookTracker):
         trading_pairs: Optional[List[str]] = None,
         domain: Optional[str] = None,
         api_factory: Optional[WebAssistantsFactory] = None,
+        redis_host: str = "127.0.0.1",
+        redis_port: int = 6379,
+        redis_password: Optional[str] = None,
+        use_redis_mirror: bool = False,
     ):
         super().__init__(
             data_source=KinesisAPIOrderBookDataSource(
                 trading_pairs=trading_pairs,
                 domain=domain,
-                api_factory=api_factory
+                api_factory=api_factory,
+                redis_host=redis_host,
+                redis_port=redis_port,
+                redis_password=redis_password,
+                use_redis_mirror=use_redis_mirror
             ),
             trading_pairs=trading_pairs
         )

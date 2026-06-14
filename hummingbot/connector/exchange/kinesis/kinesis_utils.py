@@ -36,6 +36,8 @@ def exchange_symbol_to_trading_pair(symbol: str) -> str:
             return symbol.replace(separator, "-")
     return symbol
 
+from typing import Optional
+
 class KinesisConfigMap(BaseConnectorConfigMap):
     connector: str = "kinesis"
     kinesis_api_key: SecretStr = Field(
@@ -54,6 +56,35 @@ class KinesisConfigMap(BaseConnectorConfigMap):
             "is_secure": True,
             "is_connect_key": True,
             "prompt_on_new": True,
+        }
+    )
+    kinesis_redis_host: str = Field(
+        default="127.0.0.1",
+        json_schema_extra={
+            "prompt": "Enter Redis Host for kinesis_stream mirror",
+            "is_connect_key": True,
+        }
+    )
+    kinesis_redis_port: int = Field(
+        default=6379,
+        json_schema_extra={
+            "prompt": "Enter Redis Port for kinesis_stream mirror",
+            "is_connect_key": True,
+        }
+    )
+    kinesis_redis_password: Optional[SecretStr] = Field(
+        default=None,
+        json_schema_extra={
+            "prompt": "Enter Redis Password (optional)",
+            "is_secure": True,
+            "is_connect_key": True,
+        }
+    )
+    use_redis_mirror: bool = Field(
+        default=False,
+        json_schema_extra={
+            "prompt": "Use local Redis mirror for WebSocket live pricing? (True/False)",
+            "is_connect_key": True,
         }
     )
     model_config = ConfigDict(title="kinesis")
